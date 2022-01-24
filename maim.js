@@ -53,21 +53,30 @@ function Ball(x, y, rad, color){
 
     this.isCollision = function (other) {
         // проверка на столкновение шарика this с шариком other
+        console.log(this.X + "_ ** _" + this.Y )
+        console.log(other.X + "_ ** _" + other.Y )
+        var way = Math.abs((other.radius + this.radius) - Math.sqrt(Math.pow(this.Y + other.X, 2) + Math.pow(this.X + other.Y, 2)));
+        console.log(way + " растояние ");
         return false;
     }
 }
 
 let balls = [   new Ball(),
-                new Ball(),
-                new Ball(),
                 new Ball()
+                /* new Ball(),
+                new Ball() */
 ];
+
+
 
 function tick() {
      for (let j = 0; j < balls.length ; j++) {
          balls[j].update();
+         for (let i = 0; i < balls.length; i++) {
+            balls[0].isCollision(balls[1]);
+         }
      }
-    setTimeout(tick, 30);
+    /* setTimeout(tick, 30); */
  }
 
  function check(){
