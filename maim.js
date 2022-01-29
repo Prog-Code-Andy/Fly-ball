@@ -9,13 +9,11 @@ function Ball(x, y, rad, color){
     //Поддержка передачи радиуса
     if(!this.radius){
         this.radius = ~~(Math.random()*200 + 10);
-        console.log(this.radius);
     }
     
     //ЕСЛИ КООРДИНАТЫ НЕ ПЕРЕДАНЫ РАЗМЕЩАЕТ ШАРИК СЛУЧАЙНО В ПРЕДЕЛАХ ЭКРАНА
     if(!this.X){
         let availableInnerWidth = window.innerWidth;
-        console.log(availableInnerWidth);
         this.X = Math.abs((~~(Math.random() * availableInnerWidth)) - this.radius);
     }
     if(!this.Y){
@@ -53,11 +51,14 @@ function Ball(x, y, rad, color){
 
     this.isCollision = function (other) {
         // проверка на столкновение шарика this с шариком other
-        console.log(this.X + "_ ** _" + this.Y )
-        console.log(other.X + "_ ** _" + other.Y )
-        var way = Math.abs((other.radius + this.radius) - Math.sqrt(Math.pow(this.Y + other.X, 2) + Math.pow(this.X + other.Y, 2)));
-        console.log(way + " растояние ");
-        return false;
+        let x1 = this.X + this.radius/2;
+        let y1 = this.Y + this.radius/2;
+        let x2 = other.X + other.radius/2;
+        let y2 = other.Y + other.radius/2;
+
+        let dx = Math.abs(x1 - x2);
+        let dy = Math.abs(y1 - y2);
+        return Math.sqrt(Math.pow(dy, 2) + Math.pow(dx, 2)) <= this.radius/2 + other.radius/2;
     }
 }
 
@@ -72,11 +73,14 @@ let balls = [   new Ball(),
 function tick() {
      for (let j = 0; j < balls.length ; j++) {
          balls[j].update();
-         for (let i = 0; i < balls.length; i++) {
-            balls[0].isCollision(balls[1]);
+         // Если шаров будет тысячи будет ли данная конструкция нагрузочной? Можно ли слелать перебор через ForEach - есть ли смысл?
+         for (let i = j + 1; i < balls.length; i++) {
+             if (balls[j].isCollision(balls[i])) {
+                 console.log("BOOM");
+             }
          }
      }
-    /* setTimeout(tick, 30); */
+    setTimeout(tick, 30);
  }
 
  function check(){
