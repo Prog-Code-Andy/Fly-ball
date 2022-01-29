@@ -6,6 +6,7 @@ function Ball(x, y, rad, color){
     this.dx = ~~(Math.random() * 3 + 1) * (Math.random() > 0.5 ? -1 : 1);
     this.dy = ~~(Math.random() * 3 + 1) * (Math.random() > 0.5 ? -1 : 1);
 
+
     //Поддержка передачи радиуса
     if(!this.radius){
         this.radius = ~~(Math.random()*200 + 10);
@@ -29,6 +30,7 @@ function Ball(x, y, rad, color){
 
     this.div = document.createElement('div');
     this.div.className = "ball";
+    this.div.id = Math.floor(Math.random()*1000);
     this.div.style.backgroundColor = this.color;
     this.div.style.width = this.radius + 'px';
     this.div.style.height = this.radius + 'px';
@@ -37,9 +39,6 @@ function Ball(x, y, rad, color){
     document.querySelector('body').appendChild(this.div);
 
     this.update = function () {
-        // Разобрать условие this.X + 2 * this.radius - почему * 2 - радиус пруга в px передаем и умножаем на 2 
-        //if (this.X <= 0 || this.X + 2 * this.radius >= window.innerWidth) this.dx *= -1;
-        //if (this.Y <= 0 || this.Y + 2 * this.radius >= window.innerHeight) this.dy *= -1;
         if (this.X <= 0 || this.X + this.radius >= window.innerWidth) this.dx *= -1;
         if (this.Y <= 0 || this.Y + this.radius >= window.innerHeight) this.dy *= -1;
 
@@ -63,12 +62,18 @@ function Ball(x, y, rad, color){
 }
 
 let balls = [   new Ball(),
+                new Ball(),
+                new Ball(),
                 new Ball()
-                /* new Ball(),
-                new Ball() */
 ];
 
+function del(ball) {
+    setTimeout(()=>{
+        ball.div.remove();
+    }, 300);
+    
 
+}
 
 function tick() {
      for (let j = 0; j < balls.length ; j++) {
@@ -76,7 +81,10 @@ function tick() {
          // Если шаров будет тысячи будет ли данная конструкция нагрузочной? Можно ли слелать перебор через ForEach - есть ли смысл?
          for (let i = j + 1; i < balls.length; i++) {
              if (balls[j].isCollision(balls[i])) {
-                 console.log("BOOM");
+                 del(balls[j]);
+                 balls.splice(j, 1);
+                 del(balls[i-1]);
+                 balls.splice(i-1, 1);
              }
          }
      }
