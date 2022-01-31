@@ -61,26 +61,40 @@ function Ball(x, y, rad, color){
     }
 }
 
+function DrowBoom() {
+
+}
+
 let balls = [   new Ball(),
                 new Ball(),
                 new Ball(),
                 new Ball()
 ];
 
+function drowBoom(ball) {
+    let bomb = document.createElement("div");
+    let imgBoom = document.createElement("img");
+    imgBoom.className = "foto";
+    bomb.appendChild(imgBoom);
+    bomb.style.top = ball.X + ball.radius/2 + "px";
+    bomb.style.left = ball.Y + ball.radius/2 + "px";
+    bomb.className = "bomb";
+    document.querySelector('body').appendChild(bomb);
+    console.log(ball);
+}
+
 function del(ball) {
     setTimeout(()=>{
         ball.div.remove();
     }, 300);
-    
-
 }
 
 function tick() {
      for (let j = 0; j < balls.length ; j++) {
          balls[j].update();
-         // Если шаров будет тысячи будет ли данная конструкция нагрузочной? Можно ли слелать перебор через ForEach - есть ли смысл?
          for (let i = j + 1; i < balls.length; i++) {
-             if (balls[j].isCollision(balls[i])) {
+             if (balls[j].isCollision(balls[i])){
+                 drowBoom(balls[j]);
                  del(balls[j]);
                  balls.splice(j, 1);
                  del(balls[i-1]);
