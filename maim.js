@@ -84,7 +84,9 @@ function tick() {
                  del(balls[j]);
                  balls.splice(j, 1);
                  del(balls[i-1]);
-                 balls.splice(i-1, 1);
+                 balls.splice(i - 1, 1);
+                 j--;
+                 break;
              }
          }
      }
