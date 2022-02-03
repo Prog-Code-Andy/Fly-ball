@@ -71,22 +71,31 @@ let balls = [   new Ball(),
                 new Ball()
 ];
 
-function drowBoom(ball) {
+function drowBoom(ballH, ball) {
+    let x = (ballH.X + ball.X)/2;
+    let y = (ballH.Y + ball.Y)/2;
     let bomb = document.createElement("div");
-    let imgBoom = document.createElement("img");
-    imgBoom.className = "foto";
-    bomb.appendChild(imgBoom);
-    bomb.style.top = ball.X + ball.radius/2 + "px";
-    bomb.style.left = ball.Y + ball.radius/2 + "px";
-    bomb.className = "bomb";
+    bomb.className = "firework";
+    bomb.id = "firework1";
+    for (let i = 0; i < 11; i++) {
+        let bodyBomb = document.createElement("div");
+        bodyBomb.className = "explosion";
+        bomb.appendChild(bodyBomb);
+    }
+    bomb.style.top = y + "px";
+    bomb.style.left = x + "px";
     document.querySelector('body').appendChild(bomb);
-    console.log(ball);
 }
 
-function del(ball) {
+function del(ball, actBomb) {
     setTimeout(()=>{
         ball.div.remove();
     }, 300);
+    if(actBomb){
+        setTimeout(()=>{
+            document.getElementById("firework1").remove();
+        }, 400);
+    }
 }
 
 function tick() {
@@ -94,10 +103,10 @@ function tick() {
          balls[j].update();
          for (let i = j + 1; i < balls.length; i++) {
              if (balls[j].isCollision(balls[i])){
-                 drowBoom(balls[j]);
+                 drowBoom(balls[j], balls[i]);
                  del(balls[j]);
                  balls.splice(j, 1);
-                 del(balls[i-1]);
+                 del(balls[i-1], true);
                  balls.splice(i - 1, 1);
                  j--;
                  break;
