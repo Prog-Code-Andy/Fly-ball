@@ -9,7 +9,7 @@ function Ball(x, y, rad, color){
 
     //Поддержка передачи радиуса
     if(!this.radius){
-        this.radius = ~~(Math.random()*200 + 10);
+        this.radius = ~~(Math.random()*160 + 40);
     }
     
     //ЕСЛИ КООРДИНАТЫ НЕ ПЕРЕДАНЫ РАЗМЕЩАЕТ ШАРИК СЛУЧАЙНО В ПРЕДЕЛАХ ЭКРАНА
