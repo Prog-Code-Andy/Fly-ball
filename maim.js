@@ -72,8 +72,12 @@ let balls = [   new Ball(),
 ];
 
 function drowBoom(ballH, ball) {
-    let x = (ballH.X + ball.X)/2;
-    let y = (ballH.Y + ball.Y)/2;
+    let x1 = ballH.X + ballH.radius/2;
+    let y1 = ballH.Y + ballH.radius/2;
+    let x2 = ball.X + ball.radius/2;
+    let y2 = ball.Y + ball.radius/2;
+    let x = (x1 + x2)/2;
+    let y = (y1 + y2)/2;
     let bomb = document.createElement("div");
     bomb.className = "firework";
     bomb.id = "firework1";
